@@ -53,14 +53,13 @@ Other hard cases a posts that are both. They start out as a reaction but then al
 > e.g https://www.reddit.com/r/TrueFilm/comments/1udggw5/obsession_who_are_the_victims/
 
 
-
 ---
 
 ## Data Collection Plan
 
 Where will you collect examples? How many per label? What will you do if a label is underrepresented after 200 examples?
 
-> I will collect samples from r/TrueFilm's posts with a ~50/50 split per label. If underreppresented i will add more in the underrepresented label
+> I will manually collect samples from r/TrueFilm's posts with a 30/40/30 split per label. If underreppresented i will add more in the underrepresented label
 
 ## Evaluation Metrics
 
@@ -80,6 +79,7 @@ What performance would make this classifier genuinely useful? What would you acc
 >Annotation assistance: I'll use claude to pre-label a batch of examples before reviewing them myself and add a file to not pre-labeled examples.
 
 >Failure analysis: If i have more than 20& wrong predictions i plan to give a list of them to claude and ask it to identify patterns before you write up me evaluation. I will read through the patterns and examples to compare and determine if the pattern is plausible based on the inputs
+
 # Label Distribution
 Total examples: 155
 
@@ -130,3 +130,59 @@ suggestion request       0.80      1.00      0.89         4
           accuracy                           0.71        24
          macro avg       0.79      0.78      0.74        24
       weighted avg       0.81      0.71      0.70        24
+
+
+where did the baseline struggle? Are there specific labels it consistently confuses? Write down your hypothesis
+Struggles because some critiques might be consumed as reactions. I think my labels overlap too much. I tried to include details on how to handle overlaps in the prompt but i don't thin it was succesfull
+
+## Fine-tuned model accuracy: 0.417
+
+Per-class metrics (fine-tuned model):
+                    precision    recall  f1-score   support
+
+          critique       0.43      0.55      0.48        11
+          reaction       0.40      0.44      0.42         9
+suggestion request       0.00      0.00      0.00         4
+
+          accuracy                           0.42        24
+         macro avg       0.28      0.33      0.30        24
+      weighted avg       0.35      0.42      0.38        24
+
+## confusion matrix
+![alt text](image.png)
+
+--- #1 ---
+Text:      There's nothing to dissect or speculate in this movie at all. It's purely a one trick pony that won't survive a rewatch.
+True:      critique
+Predicted: reaction  (confidence: 0.36)
+
+--- #2 ---
+Text:      Inherent Vice, expect it took me about 3 rewatches and reading the script, each time I enjoyed it more and more. I think it’s a movie where you begin to fall in love with the world each time you watch...
+True:      reaction
+Predicted: critique  (confidence: 0.36)
+
+--- #3 ---
+Text:      Looking for suggestions
+
+I literally just finished watching The Vanishing (1988) and I want to find more. To elaborate, I want to find more films with such interesting use of camera angles and overa...
+True:      suggestion request
+Predicted: critique  (confidence: 0.37)
+
+--- #8 ---
+Text:      Can anyone recommend me some older, preferably black and white, medieval movies? There's something about those older medieval films that feel so gritty. Maybe it's because the acting isn't overdramati...
+True:      suggestion request
+Predicted: critique  (confidence: 0.36)
+
+
+I think all thre were confusing because a suggestin request can include a critique and a crtique can be reaction 
+
+==================================================
+RESULTS COMPARISON
+==================================================
+Model                               Accuracy
+---------------------------------------------
+Zero-shot baseline (Groq)              0.708
+Fine-tuned DistilBERT                  0.417
+---------------------------------------------
+
+Fine-tuning regression: 0.292
