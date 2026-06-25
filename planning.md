@@ -90,6 +90,32 @@ reaction              59
 suggestion request    28
 Name: count, dtype: int64
 
+# Prompt 
+SYSTEM_PROMPT = """
+You are classifying comments and posts from  r/TrueFilm .
+Assign each post to exactly one of the following categories.
+
+suggestion request: a request for film recommendations, usually framed around a mood, genre, director whuch include critique or reaction but is mainly a request
+Example: "I don’t know what my favorite genres are and I can’t decide what to watch next. I will list my top 10 for the reference.
+Clockwork Orange, Y Tu Mama Tambien, High and Low, Stray Dog, The Third Man, Oppenheimer, About Elly, Maudie, Boyhood, Showing Up.
+Honorable mentions will be Nickel Boys, The Lives of Others, Running on Empty. I want to have Farewell My Concubine on but MC’s love interest was such an unlikable person (was not the case in the novel).
+I am Japanese, Japan resident, mid 20s. I know I am still a casual but I want to watch more movies. I will see replies at night! Thank you!"
+
+critique: analysis, interpretation, and evaluation of a movie as an art form — examining its technical execution, narrative structure, thematic meaning, or cultural impact through observation, interpretation, and reasoned argument.
+Example: "The scene, rendered for the most part in a long shot so all the signifiers are equally present, is a perfect icon of Coca-Cola imperialism. Both the pros­titute and the Asian face are grotesque parodies of materialist American culture reminiscent of the Dr. T. J. Eckleburg billboard that overlooks the wasteland of the Valley of Ashes in F. Scott Fitzgerald’s novel about the American Dream, The Great Gatsby. Kubrick’s juxtaposition signifies that Third World and colonized people can only be conceptualized by the colo­nizer insofar as they attempt to assimilate his culture (in this case by becoming commodities). They are only valued insofar as they accommodate to imperi­alist prerogatives. As a marine commanding officer says: “We are here to help the Vietnamese because inside every gook there is an American.’’ The boots in the song signify America’s presence in Vietnam, walking all over the coun­try and the culture. As the scene draws to a close the screen fades to black and in the darkness the concluding words of the chorus are repeated by the female voice of the singer: “These boots are gonna walk all over you.” It is an indica­tion—almost subliminal—that some sort of reversal is going to take place."
+
+reaction: an emotional response to a film, driven by personal feeling and taste rather than in depth analytical reasoning.
+Example: "A friend had recommended it to me in really high regards, as well as all of Powell & Pressburger's work, so I was excited to check this out, and had high expectations. In the first hour, those expectations were exceeded without a doubt. Then, the second hour hit. Man, what a trainwreck. 15 minutes is spent trying to communicate equality between the British and Americans. I really wish I could've loved this film, I really loved the first hour and saw just how influential it was, but my god is the second hour a difficult watch."
+
+Respond with ONLY the label name.
+Do not explain your reasoning.
+
+Valid labels:
+suggestion request
+critique
+reaction
+"""
+
 # Baseline Approach
 > overal 71 perent accuracy 
 > with first prompt :
